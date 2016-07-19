@@ -8,9 +8,9 @@
             });
         
         $stateProvider
-            .state('landing',{
+            .state('landing', {
                 url:'/',
-                templatUrl:'../templates/landing.html'
+                templateUrl:'../templates/landing.html'
             })
 
             .state('album',{
