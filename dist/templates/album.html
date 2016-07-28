@@ -13,8 +13,8 @@
         <tr class="album-view-song-item">
             <td class="song-item-number" ng-mouseover="hovered = true" ng-mouseleave="hovered = false">
                 <span ng-show="!playing && !hovered">1</span>
-                <a class="album-song-button" ng-show="!playing && hovered" ng-hide="playing"><span class="ion-play"</a>
-                <a class="album-song-button" ng-show="playing" ng-hide="!playing"><span class="ion-pause"</a>
+                <a class="album-song-button" ng-show="!playing && hovered" ng-hide="playing" ng-click="!playing"><span class="ion-play"></span></a>
+                <a class="album-song-button" ng-show="playing" ng-hide="!playing" ng-click="playing"><span class="ion-pause"></span></a>
             </td>
             <td class="sond-item-title">Blue</td>
             <td class="song-item-duration">3:31</td>
