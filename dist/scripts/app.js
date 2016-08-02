@@ -21,7 +21,7 @@
             
             .state('collection', {
                 url:'/collection',
-                controller:'CollectionCtrl as collecion',
+                controller:'CollectionCtrl as collection',
                 templateUrl:'/templates/collections.html'
             });
     
