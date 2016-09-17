@@ -8,7 +8,7 @@
          /*@desc: captures songs object
           @type: {Object}
         */
-        var currentSong = null; 
+        SongPlayer.currentSong = null; 
         
         /*@desc: Buzz object audio file
           @type: {Object}
@@ -21,17 +21,17 @@
             @param: {object} songs
         */
         var setSong = function(songs){
-            if(currentBuzzObject){
-                currentBuzzObject.stop();
-                currentSong.playing = null;
+            if(currentBuzzObject){//if there is an obj
+                currentBuzzObject.stop();//stop audio obj
+                SongPlayer.currentSong.playing = null;//set current obj to null
             }
-            
+            //else set obj
             currentBuzzObject = new buzz.sound(songs.audioUrl, {
                 formats:['mp3'],
                 preload:true
             });
             
-            currentSong = songs;
+            SongPlayer.currentSong = songs;
             
         };
         
@@ -50,31 +50,26 @@
           @type: {Object} songs
         */
         SongPlayer.play = function(songs){
-            if(currentSong !== songs){
+            songs = songs || SongPlayer.currentSong;
+            if(SongPlayer.currentSong !== songs){
                 setSong(songs);
                 playSong(songs);
-            }else if(currentSong === songs){
+            }else if(SongPlayer.currentSong === songs){
                 if(currentBuzzObject.isPaused()){
-                    setSong(songs);
                     playSong(songs);
                 }
             }   
         };
         
           /* @function: public SongPlayer.pause
-          @desc: pauses currently playing songs
+          @desc: pauses currently playing songs, sets song playing to false,resets current song to null
           @type: {Object} songs
         */
         SongPlayer.pause = function(songs){
+            songs = songs || SongPlayer.currentSong;
             currentBuzzObject.stop();
             songs.playing = false;
-            currentSong.playing = null;            
-          /*  
-            if(currentSong === songs){
-                currentBuzzObject.stop();
-                songs.playing = false;
-                currentSong.playing = null; 
-            }*/
+            SongPlayer.currentSong.playing = null;            
         };
         
         return SongPlayer;

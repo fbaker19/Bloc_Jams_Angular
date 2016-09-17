@@ -8,7 +8,7 @@
          /*@desc: captures songs object
           @type: {Object}
         */
-        SongPlayer.currentSong = null; 
+        var currentSong = null; 
         
         /*@desc: Buzz object audio file
           @type: {Object}
@@ -23,7 +23,7 @@
         var setSong = function(songs){
             if(currentBuzzObject){//if there is an obj
                 currentBuzzObject.stop();//stop audio obj
-                SongPlayer.currentSong.playing = null;//set current obj to null
+                currentSong.playing = null;//set current obj to null
             }
             //else set obj
             currentBuzzObject = new buzz.sound(songs.audioUrl, {
@@ -31,7 +31,7 @@
                 preload:true
             });
             
-            SongPlayer.currentSong = songs;
+            currentSong = songs;
             
         };
         
@@ -50,11 +50,10 @@
           @type: {Object} songs
         */
         SongPlayer.play = function(songs){
-            songs = songs || SongPlayer.currentSong;
-            if(SongPlayer.currentSong !== songs){
+            if(currentSong !== songs){
                 setSong(songs);
                 playSong(songs);
-            }else if(SongPlayer.currentSong === songs){
+            }else if(currentSong === songs){
                 if(currentBuzzObject.isPaused()){
                     playSong(songs);
                 }
@@ -66,10 +65,9 @@
           @type: {Object} songs
         */
         SongPlayer.pause = function(songs){
-            songs = songs || SongPlayer.currentSong;
             currentBuzzObject.stop();
             songs.playing = false;
-            SongPlayer.currentSong.playing = null;            
+            currentSong.playing = null;            
         };
         
         return SongPlayer;
