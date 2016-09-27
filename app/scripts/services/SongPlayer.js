@@ -109,10 +109,21 @@
      /*    @function: public SongPlayer.next
           @desc: pauses currently playing songs, sets song playing to false,resets current song to null
           @type: {Object} songs
+    */
         
-        SongPlayer.next(){
+        SongPlayer.next = function(){
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex++;
             
-        };*/
+            if(currentSongIndex < 0){
+                currentBuzzObject.stop();
+                SongPlayer.currentSong.playing = null;
+            }else{
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        };
         
         return SongPlayer;
     }
