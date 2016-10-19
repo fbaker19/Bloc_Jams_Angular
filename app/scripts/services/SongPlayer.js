@@ -1,5 +1,5 @@
 (function(){
-    function SongPlayer(Fixtures){
+    function SongPlayer($rootScope, Fixtures){
         /*@desc: returned object (depends on following functions/conditions)
           @type: {Object}
         */
@@ -11,8 +11,8 @@
         */
         var currentAlbum = Fixtures.getAlbum();
         
-        /*@desc: gets index of songs from the current playinng albumm
-          @param: songs
+        /*@desc: gets index of songs from the current playing album
+          @param: {object}songs
           @type: method
         */
         var getSongIndex = function(songs){
@@ -23,10 +23,21 @@
         */
         SongPlayer.currentSong = null; 
         
+         /*
+            @desc Current playback time (in seconds) of currently playing song
+            @type {Number}
+         */
+        SongPlayer.currentTime = null;
+        
+        SongPlayer.currentVolume = null;
+        
+        SongPlayer.volume = 80;
+        
         /*@desc: Buzz object audio file
           @type: {Object}
         */
         var currentBuzzObject = null;
+        
        
         
         /*
@@ -44,10 +55,51 @@
                 formats:['mp3'],
                 preload:true
             });
+               
             
-            SongPlayer.currentSong = songs;
+            //timeupdate is one of a number of HTML5 audio events we can use with Buzz's bind() method.
+            currentBuzzObject.bind('timeupdate', function(){
+                $rootScope.$apply(function(){
+            //uses the Buzz library's 'getTime' method from set the playback position. The bind() method adds an event listener to the Buzz sound object – in this case, we listen for a 'timeupdate' event.
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
+                   
+                });
+            });
             
+            SongPlayer.currentSong = songs;  
         };
+     
+         /*
+            @function setCurrentTime
+            @desc Set current time (in seconds) of currently playing song; uses the Buzz library's 'setTime' method to set the playback position.
+           
+           @param {Number} time
+         */
+        SongPlayer.setCurrentTime = function(time){
+            if(currentBuzzObject){
+                currentBuzzObject.setTime(time);
+            }
+        };
+        
+        
+        SongPlayer.setCurrentVolume = function(volume){
+            if(currentBuzzObject){
+                currentBuzzObject.setVolume(volume);
+            }
+        };
+        
+        
+  /*      
+   */
+  
+  var updateVolume = function(volume){
+            currentBuzzObject.bind('volumechange', function(){
+            $rootScope.$apply(function(){
+                SongPlayer.currentVolume = currentBuzzObject.getVolume();   
+            });
+        });
+    };
+    
         
           /*
             @function: playSong
@@ -72,7 +124,8 @@
                 if(currentBuzzObject.isPaused()){
                     playSong(songs);
                 }
-            }   
+            }
+            updateVolume(volume);
         };
         
           /* @function: public SongPlayer.pause
@@ -130,5 +183,5 @@
     
     angular
         .module('blocJams')
-        .factory('SongPlayer', SongPlayer);
+        .factory('SongPlayer',['$rootScope','Fixtures', SongPlayer]);
 })();
