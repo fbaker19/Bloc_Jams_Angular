@@ -125,7 +125,7 @@
                     playSong(songs);
                 }
             }
-            updateVolume(volume);
+    
         };
         
           /* @function: public SongPlayer.pause

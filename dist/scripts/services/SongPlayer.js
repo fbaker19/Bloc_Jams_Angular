@@ -90,9 +90,7 @@
         
         
   /*      
-  You should be setting three attributes in your seek-bar elements: the `value` the seek bar is currently set at, the `max` value that is allowable for that seek bar, and an `on-change` attribute that notifies the sound object to change its settings.  
-  
-  Look at the seek-bar set up for the song time for an example.  It should be about 7 lines up in your html template, but remember that volume's `max` value is a constant. (edited) */
+   */
   
   var updateVolume = function(volume){
             currentBuzzObject.bind('volumechange', function(){
@@ -127,8 +125,7 @@
                     playSong(songs);
                 }
             }
-            updateVolume(volume);
-            console.log(updateVolume(volume));
+    
         };
         
           /* @function: public SongPlayer.pause
